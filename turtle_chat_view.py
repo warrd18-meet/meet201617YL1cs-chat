@@ -1,5 +1,5 @@
 #2016-2017 PERSONAL PROJECTS: TurtleChat!
-#WRITE YOUR NAME HERE!
+#WRITE YOUR NAME HERE! Warrd
 
 #####################################################################################
 #                                   IMPORTS                                         #
@@ -9,7 +9,9 @@
 #Finally, from the turtle_chat_widgets module, import two classes: Button and TextInput
 #####################################################################################
 #####################################################################################
-
+import turtle
+from turtle_chat_client import Client
+from turtle_chat_widgets import Button, TextInput 
 #####################################################################################
 #                                   TextBox                                         #
 #####################################################################################
@@ -37,7 +39,24 @@
 #   \r to your string.  Test it out at the Python shell for practice
 #####################################################################################
 #####################################################################################
-
+class TextBox(TextInput):
+    def draw_box(self):
+        turtle.penup()
+        turtle.goto(self.pos)
+        turtle.pendown()
+        turtle.goto(0,100)
+        turtle.goto(200,100)
+        turtle.goto(200,0)
+        turtle.goto(self.pos)
+    def write_msg(self):
+        self.setup_listeners() 
+        turtle.write(self.new_msg)
+        self.writer.clear()
+        pass 
+        
+        
+        
+        
 #####################################################################################
 #                                  SendButton                                       #
 #####################################################################################

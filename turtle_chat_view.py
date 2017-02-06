@@ -44,15 +44,25 @@ class TextBox(TextInput):
         turtle.penup()
         turtle.goto(self.pos)
         turtle.pendown()
-        turtle.goto(0,100)
-        turtle.goto(200,100)
-        turtle.goto(200,0)
+        turtle.goto(0,self.height)
+        turtle.goto(self.width,self.height)
+        turtle.goto(self.width,0)
         turtle.goto(self.pos)
+        turtle.mainloop() 
     def write_msg(self):
-        self.setup_listeners() 
-        turtle.write(self.new_msg)
         self.writer.clear()
-        pass 
+        self.writer.write(self.new_msg)
+
+class SendButton(Button):
+    def __init__(self,my_turtle=None,shape=None,pos=(0,0),view=None):
+        super(SendButton,self).__init__(my_turtle=None,shape=None,pos=(0,0))
+        self.view=view
+    def fun(self,x=None,y=None):
+        self.view.send_msg()
+    
+        
+        
+        
         
         
         
@@ -92,6 +102,13 @@ class View:
     _LINE_SPACING=round(_SCREEN_HEIGHT/2/(_MSG_LOG_LENGTH+1))
 
     def __init__(self,username='Me',partner_name='Partner'):
+        self.username=username
+        self.partner_name=partner_name
+        self.my_client=Client()
+        turtle.setup()
+        setup (width=300, height=600) 
+
+        
         '''
         :param username: the name of this chat user
         :param partner_name: the name of the user you are chatting with

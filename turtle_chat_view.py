@@ -49,12 +49,15 @@ class TextBox(TextInput):
         turtle.goto(self.width,self.height)
         turtle.goto(self.width,0)
         turtle.goto(self.pos)
-        turtle.mainloop() 
+         
     def write_msg(self):
         self.writer.clear()
         self.writer.goto(10,self.height - 15) 
-        self.writer.write(self.new_msg)
-instace1=TextBox() 
+        self.writer.write(self.new_msg, font=("Arial", 14, "normal"))
+#instace1=TextBox()
+Screen = turtle.Screen() 
+image="bg.gif"
+Screen.bgpic(image)
 class SendButton(Button):
     def __init__(self,my_turtle=None,shape=None,pos=(0,0),view=None):
         super(SendButton,self).__init__(my_turtle=None,shape=None,pos=(0,0))
@@ -141,7 +144,6 @@ class View:
         #or at the end of the list using
         #   self.msg_queue.append(a_msg_string)
         self.msg_queue=[]
-        self.msg_queue.append(self.get_msg())
         ###
 
         ###
@@ -149,9 +151,10 @@ class View:
         #You can use the clear() and write() methods to erase
         #and write messages for each
         ###
+        self.turtle_clone=turtle.clone() 
         self.turtle_queue=[]
-        for x in self.msg_queue:
-            self.turtle_queue.append(turtle.clone())
+        
+        
             
         
         ###
@@ -159,7 +162,7 @@ class View:
         #Store them inside of this instance
         ###
         self.tb=TextBox()
-        self.send_btn=SendButton() 
+        self.send_btn=SendButton(view=self) 
 
         ###
         #Call your setup_listeners() function, if you have one,
@@ -177,14 +180,15 @@ class View:
         It should call self.display_msg() to cause the message
         display to be updated.
         '''
-        self.my_client.send()
+        self.my_client.send(self.get_msg())
         self.msg_queue.append(self.get_msg())
-        self.clear_msg()
+        print("hi"+self.get_msg()) 
+        self.tb.clear_msg()
         self.display_msg()                       
                         
 
     def get_msg(self):
-        return self.textbox.get_msg()
+        return self.tb.get_msg()
 
     
 
@@ -199,10 +203,10 @@ class View:
 
         Then, it can call turtle.listen()
         '''
-        self.sb.fun=SendButton()
-        turtle.onkeypress(self.send_btn.fun)
-        turtle.listen()
- 
+        #self.sb.fun=SendButton()
+        #turtle.onkeypress(self.send_btn.fun)
+        #turtle.listen()
+        pass 
 
     def msg_received(self,msg):
         '''
@@ -215,6 +219,9 @@ class View:
         '''
         print(msg) #Debug - print message
         show_this_msg=self.partner_name+' says:\r'+ msg
+        self.msg_queue.append(msg)
+        self.display_msg() 
+        
         #Add the message to the queue either using insert (to put at the beginning)
         #or append (to put at the end).
         #
@@ -225,13 +232,11 @@ class View:
         This method should update the messages displayed in the screen.
         You can get the messages you want from self.msg_queue
         '''
-        pass
+        self.turtle_clone.clear()
+        self.turtle_clone.write(self.msg_queue[-1])
 
     def get_client(self):
         return self.my_client
-image="send_button.jpg"
-screen.addshape(image)
-screen.bgcolor("lightblue")
 
 ##############################################################
 ##############################################################

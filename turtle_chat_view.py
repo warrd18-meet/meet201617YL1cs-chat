@@ -43,24 +43,37 @@ class TextBox(TextInput):
     def draw_box(self):
         turtle.clear()
         turtle.penup()
-        turtle.goto(self.pos)
+        #turtle.goto(self.pos)
+        turtle.goto(-100,150)
         turtle.pendown()
-        turtle.goto(0,self.height)
-        turtle.goto(self.width,self.height)
-        turtle.goto(self.width,0)
-        turtle.goto(self.pos)
-         
+        turtle.goto(100,150)
+        turtle.goto(100,0)
+        turtle.goto(-100,0)
+        turtle.goto(-100,150)
+        #turtle.goto(0,self.height)
+        #turtle.goto(self.width,self.height)
+        #turtle.goto(self.width,0)
+        #turtle.goto(self.pos)
+        turtle.color("grey")
+        turtle.pencolor("white") 
     def write_msg(self):
         self.writer.clear()
-        self.writer.goto(10,self.height - 15) 
+        #self.writer.goto(-100,self.height - 15)
+        self.writer.goto(-90,130)
         self.writer.write(self.new_msg, font=("Arial", 14, "normal"))
+        turtle.color("grey") 
+
+        #if (len(self.new_msg)%self.letters_per_line)==0:
+            #self.new_msg=self.new_msg+"/r"
+            #self.writer.writer(self.new_msg)
+turtle.color("white") 
 #instace1=TextBox()
 Screen = turtle.Screen() 
 image="bg.gif"
 Screen.bgpic(image)
 class SendButton(Button):
     def __init__(self,my_turtle=None,shape=None,pos=(0,0),view=None):
-        super(SendButton,self).__init__(my_turtle=None,shape=None,pos=(0,0))
+        super(SendButton,self).__init__(my_turtle=None,shape=None,pos=(0,-100))
         self.view=view
     def fun(self,x=None,y=None):
         self.view.send_msg()
@@ -206,7 +219,9 @@ class View:
         #self.sb.fun=SendButton()
         #turtle.onkeypress(self.send_btn.fun)
         #turtle.listen()
-        pass 
+        turtle.onkeypress(self.send_btn.fun,"Return")
+        turtle.listen()
+        
 
     def msg_received(self,msg):
         '''
